@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: mynew-game-office
+    runtime: node
+    plan: free
+    buildCommand: "echo 'Zero-dependency Node.js 22 app ready'"
+    startCommand: "npm start"
+    healthCheckPath: "/api/health"
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: HOST
+        value: "0.0.0.0"
+      - key: DRIVE_FOLDER_NAME
+        value: "Mynew game/"
+      - key: DRIVE_FOLDER_ID
+        sync: false
+      - key: GOOGLE_SERVICE_ACCOUNT_JSON
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false

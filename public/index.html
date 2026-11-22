@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mynew Game Studio — AI Agent Office (Drive Connected)</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon" aria-hidden="true">
+        <svg width="19" height="19" viewBox="0 0 16 16" fill="currentColor">
+          <rect x="2" y="5" width="12" height="6" />
+          <rect x="1" y="6" width="14" height="5" />
+          <rect x="4" y="7" width="1" height="3" fill="var(--surface)" />
+          <rect x="3" y="8" width="3" height="1" fill="var(--surface)" />
+          <rect x="10" y="7" width="1" height="1" fill="var(--surface)" />
+          <rect x="12" y="8" width="1" height="1" fill="var(--surface)" />
+          <rect x="10" y="9" width="1" height="1" fill="var(--surface)" />
+        </svg>
+      </div>
+      <div>
+        <div class="brand-title-row">
+          <h1 id="headerStudioTitle">Mynew Game Studio</h1>
+          <span id="modeBadge" class="pill">Studio Sim Mode</span>
+          <a id="driveHeaderPill" href="https://drive.google.com/drive/my-drive" target="_blank" rel="noopener" class="pill pill-drive" title="เปิดโฟลเดอร์ Google Drive Mynew game/">
+            ☁️ Drive: Mynew game/ ↗
+          </a>
+        </div>
+        <p class="brand-sub">Full-Stack AI Agent Game Dev Office • บันทึกข้อมูลถาวร &amp; ซิงก์เอกสารลง Google Drive อัตโนมัติ</p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <div class="seg-group" role="group" aria-label="เวลาในออฟฟิศ">
+        <button data-time="day" class="btn-seg time-btn active">☀️ เช้า</button>
+        <button data-time="sunset" class="btn-seg time-btn">🌇 เย็น</button>
+        <button data-time="night" class="btn-seg time-btn">🌙 ดึก</button>
+      </div>
+
+      <button id="btnTheme" class="btn" title="สลับธีมหน้าเว็บ สว่าง/มืด">🌓 ธีม</button>
+      <button id="btnBanter" class="btn" title="เปิด/ปิดให้ทีมเดินคุยกันเอง">🗣️ คุยกันเอง: เปิด</button>
+      <button id="btnStandup" class="btn">📋 ประชุม</button>
+      <button id="btnCoffee" class="btn">☕ พักเบรก</button>
+      <button id="btnSound" class="btn">🔇 เสียง</button>
+      <button id="btnApiSettings" class="btn btn-primary">⚙️ ตั้งค่า &amp; Drive</button>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="workspace">
+    <!-- Left Column -->
+    <section class="col-left">
+      <div class="card">
+        <div class="card-head">
+          <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+            <strong>🏠 ชั้น 1 — Indie Studio Floor</strong>
+            <span id="liveEventTicker" class="muted" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+              คลิกตัวละคร โต๊ะประชุม เครื่องกาแฟ หรือเจ้าพิกเซลได้
+            </span>
+          </div>
+          <div class="muted num-tab" style="display:flex;gap:12px;flex-shrink:0;">
+            <span>⚡ พลังทีม <strong id="teamEnergy" style="color:var(--text)">92%</strong></span>
+            <span>💞 เคมีทีม <strong id="teamHarmony" style="color:var(--text)">82%</strong></span>
+            <span>☁️ Drive <strong id="driveCount" style="color:var(--text)">0</strong> ไฟล์</span>
+          </div>
+        </div>
+
+        <div class="stage-wrap">
+          <canvas id="officeCanvas" width="600" height="380" class="pixel-canvas"></canvas>
+          <div id="canvasToast" class="canvas-toast"></div>
+        </div>
+
+        <div class="missions-bar">
+          <div class="missions-head">
+            <span class="muted" style="font-weight:600;">ภารกิจทีมสร้างเกม (สร้างเอกสาร &amp; อัปโหลดลง Google Drive อัตโนมัติ)</span>
+            <button id="btnTriggerScene" class="link-btn">✨ สุ่มเหตุการณ์ในออฟฟิศตอนนี้</button>
+          </div>
+          <div class="missions-list">
+            <button data-mission="pitch" class="btn mission-btn">🚀 ประชุมคิดไอเดียเกมจากศูนย์</button>
+            <button data-mission="gdd" class="btn mission-btn">📖 เขียน GDD + ถกสโคป</button>
+            <button data-mission="mechanics" class="btn mission-btn">⚔️ ออกแบบตัวละคร &amp; ระบบต่อสู้</button>
+            <button data-mission="tech" class="btn mission-btn">💻 วางโค้ด + QA หาบั๊ก</button>
+            <button data-mission="audio_art" class="btn mission-btn">🎨 คุยโทนภาพ Pixel &amp; เพลง BGM</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6-Member Team Roster & Profile -->
+      <div class="card roster-section">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+          <span class="muted" style="font-size:12px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;">พนักงานในสตูดิโอ (6 คน)</span>
+          <span class="muted" style="font-size:12px;">คลิกดูนิสัย อารมณ์ และความสัมพันธ์กับเพื่อนร่วมงาน</span>
+        </div>
+        <div id="rosterGrid" class="roster-grid"></div>
+        <div id="agentInspector" class="inspector"></div>
+      </div>
+    </section>
+
+    <!-- Right Column Sidebar -->
+    <aside class="card sidebar-card">
+      <div class="tabs-bar">
+        <button data-tab="chat" class="tab-btn active">💬 แชททีม</button>
+        <button data-tab="relations" class="tab-btn">💞 สัมพันธ์</button>
+        <button data-tab="board" class="tab-btn">📋 งาน (<span id="tabBoardCount">0</span>)</button>
+        <button data-tab="docs" class="tab-btn">☁️ Drive (<span id="tabDocsCount">0</span>)</button>
+      </div>
+
+      <!-- Tab 1: Office Chat -->
+      <div id="panel-chat" class="tab-panel">
+        <div class="mention-strip thin-scroll">
+          <span class="muted" style="font-size:11px;flex-shrink:0;">เรียก:</span>
+          <button data-mention="" class="btn btn-sm mention-chip">@ทุกคน</button>
+          <button data-mention="@พี่เมย์ " class="btn btn-sm mention-chip">@พี่เมย์</button>
+          <button data-mention="@กานต์ " class="btn btn-sm mention-chip">@กานต์</button>
+          <button data-mention="@ต้น " class="btn btn-sm mention-chip">@ต้น</button>
+          <button data-mention="@มิ้นท์ " class="btn btn-sm mention-chip">@มิ้นท์</button>
+          <button data-mention="@เจมส์ " class="btn btn-sm mention-chip">@เจมส์</button>
+          <button data-mention="@พี่โน้ต " class="btn btn-sm mention-chip">@พี่โน้ต</button>
+        </div>
+
+        <div id="chatFeed" class="chat-feed thin-scroll"></div>
+
+        <div class="typing-bar">
+          <span id="typingText">ทีมงานพร้อมคุยกับบอส</span>
+          <span id="syncIndicator" class="text-success" style="font-weight:600;"></span>
+        </div>
+
+        <form id="chatForm" class="chat-form">
+          <input id="chatInput" class="input" type="text" placeholder="สั่งงานหรือคุยกับทีม เช่น 'อยากทำเกมร้านราเมนในดันเจี้ยน' หรือ @ต้น ..." />
+          <button type="submit" class="btn btn-primary" style="flex-shrink:0;">ส่ง</button>
+        </form>
+      </div>
+
+      <!-- Tab 2: Team Relationships -->
+      <div id="panel-relations" class="tab-panel hidden">
+        <div class="panel-scroll thin-scroll">
+          <div class="sub-box" style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <strong>🕸️ แผนผังความสัมพันธ์ในสตูดิโอ</strong>
+              <span class="muted" style="font-size:11px;">บันทึกถาวรบน Backend</span>
+            </div>
+            <svg id="relGraphSvg" viewBox="0 0 320 190" style="width:100%;height:auto;display:block;"></svg>
+            <div class="muted" style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;font-size:11px;">
+              <span>🟢 ซี้ / เข้าขากัน</span>
+              <span>🟠 คู่กัดแต่รักกัน</span>
+              <span>🔵 คู่หูแบกงาน</span>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <strong class="muted">คู่ความสัมพันธ์หลักในบริษัท</strong>
+            <button id="btnTeamDinner" class="btn btn-sm">🍕 สั่งพิซซ่าเลี้ยงทีม</button>
+          </div>
+          <div id="relationsList" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Sprint Board -->
+      <div id="panel-board" class="tab-panel hidden">
+        <div style="padding:10px;border-bottom:1px solid var(--border);display:flex;gap:6px;">
+          <input id="newTaskInput" class="input" type="text" placeholder="เพิ่มงานใหม่เข้า Sprint..." />
+          <select id="newTaskOwner" class="input" style="width:auto;">
+            <option value="may">พี่เมย์</option>
+            <option value="karn">กานต์</option>
+            <option value="ton">ต้น</option>
+            <option value="mint">มิ้นท์</option>
+            <option value="james">เจมส์</option>
+            <option value="note">พี่โน้ต</option>
+          </select>
+          <button id="btnAddTask" class="btn btn-primary" style="flex-shrink:0;">เพิ่ม</button>
+        </div>
+        <div id="boardList" class="panel-scroll thin-scroll"></div>
+      </div>
+
+      <!-- Tab 4: Game Docs & Live Google Drive -->
+      <div id="panel-docs" class="tab-panel hidden">
+        <div style="padding:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;">
+          <div style="display:flex;gap:6px;">
+            <button id="btnNewDoc" class="btn btn-sm btn-primary">+ สร้างเอกสารใหม่</button>
+            <button id="btnRefreshDrive" class="btn btn-sm">🔄 รีเฟรช Drive</button>
+          </div>
+          <a id="driveFolderLinkBtn" href="https://drive.google.com/drive/my-drive" target="_blank" rel="noopener" class="btn btn-sm">
+            เปิด Mynew game/ ↗
+          </a>
+        </div>
+        <div class="panel-scroll thin-scroll">
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <strong class="muted">📝 เอกสารจากสตูดิโอ (Auto-Sync ลง Drive)</strong>
+            </div>
+            <div id="docsList" style="display:flex;flex-direction:column;gap:8px;"></div>
+          </div>
+
+          <div style="margin-top:8px;padding-top:10px;border-top:1px solid var(--border);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <strong class="muted">☁️ ไฟล์จริงใน Google Drive: Mynew game/</strong>
+              <span id="driveSyncStateText" class="muted" style="font-size:11px;">กำลังโหลด...</span>
+            </div>
+            <div id="driveFilesList" style="display:flex;flex-direction:column;gap:7px;"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Settings & Drive Modal -->
+  <div id="apiModal" class="modal-backdrop hidden">
+    <div class="modal">
+      <div class="modal-head">
+        <strong>⚙️ ตั้งค่าสตูดิโอ, AI Engine &amp; Google Drive</strong>
+        <button id="closeApiModal" class="btn btn-sm">✕</button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label style="font-weight:600;display:block;margin-bottom:4px;">ชื่อโปรเจกต์เกมของคุณ</label>
+          <input id="gameTitleInput" class="input" type="text" value="Mynew Game" />
+        </div>
+
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <input id="autoSyncDriveInput" type="checkbox" checked />
+          <span><strong>บันทึกเอกสารลง Google Drive <code>Mynew game/</code> อัตโนมัติ</strong> ทุกครั้งที่ทีมสร้างหรือแก้ไขไฟล์</span>
+        </label>
+
+        <div style="padding-top:8px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:10px;">
+          <div>
+            <label style="font-weight:600;display:block;margin-bottom:4px;">โหมด AI (เรียกผ่าน Backend ปลอดภัย ไม่ติด CORS)</label>
+            <select id="apiProvider" class="input">
+              <option value="sim">Studio Sim Mode (ฟรี / ใช้งานได้ทันที)</option>
+              <option value="gemini">Google Gemini API (gemini-2.5-flash)</option>
+              <option value="openai">OpenAI / OpenAI-Compatible API</option>
+            </select>
+          </div>
+
+          <div id="apiKeyGroup" class="hidden" style="display:flex;flex-direction:column;gap:8px;">
+            <div>
+              <label style="font-weight:600;display:block;margin-bottom:4px;">API Key <span id="savedKeyHint" class="text-success" style="font-weight:500;"></span></label>
+              <input id="apiKeyInput" class="input" type="password" placeholder="วางคีย์ใหม่ หรือเว้นว่างไว้เพื่อใช้คีย์เดิม" />
+            </div>
+            <div id="apiBaseUrlGroup" class="hidden" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div>
+                <label style="font-weight:600;display:block;margin-bottom:4px;">Base URL</label>
+                <input id="apiBaseUrl" class="input" type="text" value="https://api.openai.com/v1/chat/completions" />
+              </div>
+              <div>
+                <label style="font-weight:600;display:block;margin-bottom:4px;">Model</label>
+                <input id="apiModel" class="input" type="text" value="gpt-4o-mini" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button id="cancelApiModal" class="btn">ยกเลิก</button>
+        <button id="saveApiModal" class="btn btn-primary">💾 บันทึกการตั้งค่า</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Document Editor & Drive Sync Modal -->
+  <div id="docModal" class="modal-backdrop hidden">
+    <div class="modal modal-lg">
+      <div class="modal-head">
+        <div style="min-width:0;flex:1;">
+          <input id="docModalTitleInput" class="input" type="text" style="font-weight:700;" placeholder="ชื่อไฟล์ เช่น 01_Game_Pitch.md" />
+          <div id="docModalMeta" class="muted" style="font-size:11px;margin-top:3px;"></div>
+        </div>
+        <button id="closeDocModal" class="btn btn-sm">✕</button>
+      </div>
+      <div class="modal-body">
+        <textarea id="docModalEditor" class="editor-textarea thin-scroll" placeholder="เขียนรายละเอียดเกมเป็น Markdown..."></textarea>
+      </div>
+      <div class="modal-foot" style="justify-content:space-between;flex-wrap:wrap;">
+        <div style="display:flex;gap:6px;align-items:center;">
+          <a id="docModalDriveLink" href="#" target="_blank" rel="noopener" class="btn btn-sm hidden">☁️ เปิดใน Google Drive ↗</a>
+          <button id="btnCopyDoc" class="btn btn-sm">📋 คัดลอก</button>
+          <button id="btnDownloadDoc" class="btn btn-sm">⬇️ โหลด .md</button>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button id="btnSaveAndSyncDoc" class="btn btn-primary">☁️ บันทึก &amp; ซิงก์ลง Drive</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
