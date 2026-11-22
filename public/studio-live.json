@@ -1,58 +1,58 @@
 {
-  "revision": 7,
-  "updatedAt": "2026-11-22T08:35:28.140Z",
+  "revision": 8,
+  "updatedAt": "2026-11-22T08:44:45.509Z",
   "commander": "Antigravity (AI Chief of Staff)",
   "gameTitle": "Our Final Year",
-  "activeOrder": "บอสเคาะแกน 2 (Coming-of-Age ม.6 ล้วนๆ)! ทีมแยกย้ายเข้าโต๊ะทำงานจริง — เขียน Master GDD + คัมภีร์นางเอก 4 คน Rank 1-10 & After Story ครบทุก Ending ลง Drive!",
-  "teamEnergy": 97,
+  "activeOrder": "มิ้นท์สร้าง Concept Art ตัวละครหลัก 5 คน (ไทม์ + 4 นางเอก) พร้อม Interactive Pixel Sheet Viewer และอัปโหลดชีตไทม์ + Art Prompt Guide ลง Google Drive!",
+  "teamEnergy": 95,
   "driveFolderUrl": "https://drive.google.com/drive/folders/1Pc1BFRgS7H2zUlpONKjEWB0UgF49Q2Ps",
   "agents": {
     "may": {
       "status": "working",
-      "task": "เปิด Sprint 1 อย่างเป็นทางการ & ล็อก Milestone ปฏิทิน 1 ปีสุดท้าย",
+      "task": "จัดเก็บ ConceptArt_01_Time.jpg & 08_Character_Concept_Art_Guide.md ลง Drive",
       "progress": 100,
-      "mood": "ภูมิใจมาก โปรเจกต์ Our Final Year เริ่มเดินเครื่องแล้ว!",
-      "bubble": "บอสเคาะแกน 2 แล้ว! ลุย Master GDD & Sprint 1 ค่ะ! 📋✨",
+      "mood": "เรียบร้อย! รอบอสคอมเมนต์ดีไซน์ตัวละคร",
+      "bubble": "เก็บ Concept Art ลง Mynew game/ ให้เรียบร้อยค่ะ 📋",
       "emote": "📋"
     },
     "karn": {
       "status": "working",
-      "task": "เขียนคัมภีร์นางเอก 4 คน (Rank 1-10) + ผัง After Story ครบทุก Ending",
+      "task": "เขียนบทพูดตัวอย่าง 5 อารมณ์ของทั้ง 5 ตัวละครใส่ใน Concept Viewer",
       "progress": 100,
-      "mood": "อินจัด น้ำตาจะไหลตอนเขียนบทปัจฉิมฯ",
-      "bubble": "เขียน Rank 1-10 + After Story ครบ 4 นางเอกแล้วครับ! 💔📖",
+      "mood": "เห็นภาพตัวละครแล้วอินจัด!",
+      "bubble": "เห็นหน้าไทม์กับสาวๆ แล้วอยากเขียนบทที่ 1 เลย! 📖",
       "emote": "💡"
     },
     "ton": {
       "status": "working",
-      "task": "เขียน Tech Spec: 2D Side-Scrolling Engine + Persona Calendar + Dialogue JSON",
+      "task": "ทดสอบ Pixel Sprite Scale & 4-Frame Walk Cycle ในฉากทางเดินแสงเย็น",
       "progress": 100,
-      "mood": "พร้อมเขียน Playable Prototype บทที่ 1!",
-      "bubble": "สเปก Engine เสร็จแล้ว พร้อมขึ้นโค้ด Prototype ให้บอสเดินเล่นเลย! 💻",
+      "mood": "ตัวละครเดินในฉากแสงเย็นลื่นมาก!",
+      "bubble": "ลองเอา Sprite เดินในฉาก Golden Hour แล้วโคตรสวย! 💻",
       "emote": "💻"
     },
     "mint": {
       "status": "working",
-      "task": "วางสเปก Sprite 4 ฤดู + ชุดนักเรียน & ชุดตอนโตใน After Story ของ 4 นางเอก",
+      "task": "ทำ Concept Art ตัวละคร 5 คน + Interactive Pixel Portrait & After Story Outfit Viewer",
       "progress": 100,
-      "mood": "ฟินมาก ออกแบบชุดเดตกับชุดมหาลัยของสาวๆ",
-      "bubble": "ออกแบบชุดนักเรียน + ชุดตอนโตใน After Story ครบ 4 คนแล้วค่า 🎨",
+      "mood": "ภูมิใจกับชีตไทม์และ Pixel Sheet ทั้ง 5 คนมาก!",
+      "bubble": "ทำชีตไทม์ + Interactive Pixel Sheet ครบ 5 คนแล้วค่า! 🎨✨",
       "emote": "🎨"
     },
     "james": {
       "status": "working",
-      "task": "ตรวจตารางเงื่อนไข Ending ทั้ง 10 แบบ & ความสนุกของ 5 มินิเกม",
+      "task": "เช็กความชัดของสีหน้า Portrait 5 อารมณ์ & ชุด After Story",
       "progress": 100,
-      "mood": "พร้อมเทส Playable Demo บทที่ 1 แล้ว!",
-      "bubble": "เช็กผัง 10 ฉากจบ + มินิเกมเรียบร้อย ไม่มีทางตันครับ! ✅",
+      "mood": "ชอบสีหน้าเขินของมายด์กับรินมาก 555",
+      "bubble": "สีหน้าเขินกับช็อกของแต่ละคนน่ารักมากครับ! 😆",
       "emote": "🐛"
     },
     "note": {
       "status": "working",
-      "task": "วางแผนเพลง 4 ฤดู + Theme Song นางเอก 4 คน + เพลงวันปัจฉิมฯ",
-      "progress": 100,
-      "mood": "กำลังเกากีตาร์หาคอร์ดเพลงวันปัจฉิมนิเทศ",
-      "bubble": "คอร์ดเพลงวันปัจฉิมฯ มาแล้ว... ซึ้งแน่นอน 🎸🎹",
+      "task": "จับคู่โทนสีหน้าตัวละครกับเสียง Voice Blip ของแต่ละคน",
+      "progress": 90,
+      "mood": "ได้ฟีลตัวละครชัดขึ้นเยอะ",
+      "bubble": "เห็นหน้าซีนกับเอวาแล้วได้เสียงธีมเป๊ะเลย 🎧",
       "emote": "🎵"
     }
   },
@@ -76,7 +76,7 @@
     {
       "a": "mint",
       "b": "ton",
-      "score": 81,
+      "score": 83,
       "type": "frenemy",
       "label": "สงคราม 2 พิกเซล",
       "desc": "มิ้นท์ชอบเดินมาขอให้ต้นขยับ UI ทีละ 2px ต้นทำหน้าปลงแต่สุดท้ายก็ยอมแก้ให้ทุกที"
@@ -123,6 +123,24 @@
     }
   ],
   "tasks": [
+    {
+      "id": "t_art_3",
+      "title": "รอโควต้า Gen ภาพรีเซ็ต / เจนภาพ Hi-Res Sheet ของ ริน, มายด์, ซีน, เอวา เพิ่ม (พร้อม Prompt ชุดเดียวกันในไฟล์ 08)",
+      "ownerId": "mint",
+      "status": "todo"
+    },
+    {
+      "id": "t_art_2",
+      "title": "สร้าง Interactive Pixel Concept Art & Sprite Viewer ครบ 5 ตัวละคร (5 สีหน้า + 3 ชุด + เดินในฉากแสงเย็น)",
+      "ownerId": "mint",
+      "status": "done"
+    },
+    {
+      "id": "t_art_1",
+      "title": "วาด AI Concept Art Sheet พระเอก ไทม์ (ConceptArt_01_Time.jpg) + อัปโหลดลง Drive",
+      "ownerId": "mint",
+      "status": "done"
+    },
     {
       "id": "t_gdd_4",
       "title": "ออกแบบ Pixel Art ฉากทางเดินโรงเรียน + ดาดฟ้าแสงเย็น + Portrait นางเอก",
@@ -257,6 +275,18 @@
     }
   ],
   "docs": [
+    {
+      "id": "doc_concept_art_guide",
+      "title": "08_Character_Concept_Art_Guide.md",
+      "authorId": "mint",
+      "authorName": "มิ้นท์ (Art & UI Lead)",
+      "emoji": "🎨",
+      "createdAt": "08:44",
+      "driveId": "1pNqbz3Hy3l2QDuap98LVpBaoTSoKGoaT",
+      "driveUrl": "https://drive.google.com/file/d/1pNqbz3Hy3l2QDuap98LVpBaoTSoKGoaT/view",
+      "driveStatus": "synced",
+      "content": "# 08 — Character Concept Art Guide: `Our Final Year`\n\n> **จัดทำโดย:** มิ้นท์ (Art & UI Lead)  \n> **สไตล์อ้างอิง:** 2D Pixel Art Visual Novel โทนอบอุ่น Golden Hour (*Until Then* × *A Space for the Unbound*)\n\n---\n\n## 1. ไฟล์ภาพ Concept Art ที่อัปโหลดแล้วในโฟลเดอร์นี้\n- **`ConceptArt_01_Time.jpg`** — พระเอก **ไทม์ (Time)** ครบทั้ง Dialogue Portrait, ชุดนักเรียน ม.6, 4-Frame Side-Scrolling Sprite และชุด After Story (https://drive.google.com/file/d/1cfNpYKD-UMW2bbEAe2dLzA7Zt3zo6aDE/view)\n- **Interactive Pixel Concept Viewer (ครบทั้ง 5 ตัวละคร):** ดูใน Antigravity (`character_concept_art.html`) — สลับสีหน้า 5 แบบ, สลับชุด ม.6 / หน้าหนาว / After Story, ดูพรีวิวเดินในฉากทางเดินแสงเย็น และกด Export PNG ได้ทันที\n\n---\n\n## 2. จานสีประจำตัวละครทั้ง 5 คน\n| ตัวละคร | สีผม | สีผิว | สีประจำตัว / ชุดหลัก | ซิกเนเจอร์ |\n|---|---|---|---|---|\n| **ไทม์ (Time)** | `#3A241B` | `#EFC098` | `#5D6B41` (เขียวมะกอก) | กระเป๋าผ้าเขียวมะกอก + นาฬิกาข้อมือ |\n| **ริน (Rin)** | `#1B2640` | `#FBE0CB` | `#1E3A8A` / `#F3E7D3` | กิ๊บเงิน + คลิปบอร์ดสภา / สมุดสเก็ตช์ |\n| **มายด์ (Mind)** | `#6E3F28` | `#F6D2B5` | `#FACC15` / `#F59E0B` | โบว์เหลืองมัดครึ่งหัว + พวงกุญแจตุ๊กตา |\n| **ซีน (Scene)** | `#2A1F36` | `#F9DFD0` | `#6D7564` / `#3B5984` | กล้องฟิล์ม 35mm สีเงินคล้องคอ |\n| **เอวา (Ava)** | `#7C2D23` | `#F2C7A5` | `#9F1239` / `#451A03` | หูฟังคล้องคอ + ผ้ากันเปื้อนคาเฟ่ |\n\n---\n\n## 3. Master AI Image Prompts (สไตล์เดียวกับชีตไทม์เป๊ะ สำหรับเจน Hi-Res Sheet ของ 4 นางเอก)\n*(หมายเหตุ: โควต้าเจนภาพของระบบหมดชั่วคราวหลังเจนภาพไทม์เสร็จ — สามารถนำ Prompt ด้านล่างไปวางใน Gemini / ImageFX หรือสั่งผมเจนเพิ่มต่อเมื่อโควต้ารีเซ็ตได้ทันที ภาพจะออกมาคุมโทนเข้าชุดกับไทม์ 100%!)*\n\n### ริน (Rin)\n```text\nHigh-craft 2D pixel art character concept art sheet for a nostalgic indie coming-of-age visual novel game inspired by Until Then and A Space for the Unbound. Subject: Rin, a poised 18-year-old Southeast Asian high school senior girl and student council president with long straight midnight-navy hair, a sleek silver hairpin, calm intelligent dark eyes with a subtle hint of quiet vulnerability. Clean parchment-cream studio sheet background with subtle warm golden-hour rim lighting and crisp pixel art outlines. Layout from left to right: 1) detailed pixel art dialogue bust portrait with gentle composed expression, 2) full-body standing pose wearing a crisp white high school blouse with dark navy ribbon, pleated navy skirt, loafers, holding a student council clipboard, 3) small 2D side-scrolling pixel art walking sprite strip, 4) grown-up After Story university outfit wearing a soft cream linen shirt with rolled sleeves carrying an architecture sketchbook. Crisp authentic 16-bit/32-bit pixel art style, cohesive warm palette, no text or gibberish letters.\n```\n\n### มายด์ (Mind)\n```text\nHigh-craft 2D pixel art character concept art sheet for a nostalgic indie coming-of-age visual novel game inspired by Until Then and A Space for the Unbound. Subject: Mind, a cheerful warm-hearted 18-year-old Southeast Asian high school senior girl and childhood friend with shoulder-length warm chestnut brown hair tied half-up with a bright yellow ribbon, bright sparkling smile, rosy cheeks. Clean parchment-cream studio sheet background with subtle warm golden-hour rim lighting and crisp pixel art outlines. Layout from left to right: 1) detailed pixel art dialogue bust portrait with bright affectionate smile, 2) full-body standing pose wearing a classic white high school blouse, navy pleated skirt, white socks and sneakers, shoulder bag with a tiny plush keychain, 3) small 2D side-scrolling pixel art walking sprite strip, 4) grown-up After Story university casual outfit wearing a cozy oversized cream-and-amber hoodie and jeans. Crisp authentic 16-bit/32-bit pixel art style, cohesive warm palette, no text or gibberish letters.\n```\n\n### ซีน (Scene)\n```text\nHigh-craft 2D pixel art character concept art sheet for a nostalgic indie coming-of-age visual novel game inspired by Until Then and A Space for the Unbound. Subject: Scene, a quiet artistic 18-year-old Southeast Asian high school senior girl and photography club member with a neat dark plum-black bob haircut, calm observant eyes, wearing a vintage silver 35mm film camera on a leather strap around her neck. Clean parchment-cream studio sheet background with subtle warm golden-hour rim lighting and crisp pixel art outlines. Layout from left to right: 1) detailed pixel art dialogue bust portrait with thoughtful quiet gaze, 2) full-body standing pose wearing a relaxed white high school shirt under a soft olive-gray cardigan, navy pleated skirt, holding her film camera, 3) small 2D side-scrolling pixel art walking sprite strip, 4) grown-up After Story photographer outfit wearing a cropped denim jacket over a dark turtleneck with camera bag. Crisp authentic 16-bit/32-bit pixel art style, cohesive warm palette, no text or gibberish letters.\n```\n\n### เอวา (Ava)\n```text\nHigh-craft 2D pixel art character concept art sheet for a nostalgic indie coming-of-age visual novel game inspired by Until Then and A Space for the Unbound. Subject: Ava, an independent stylish 18-year-old Southeast Asian high school senior girl who works part-time at a cozy indie cafe, wavy auburn-brown hair in a loose ponytail, headphones resting around her neck, confident warm smirk. Clean parchment-cream studio sheet background with subtle warm golden-hour rim lighting and crisp pixel art outlines. Layout from left to right: 1) detailed pixel art dialogue bust portrait with cool playful half-smile, 2) full-body standing pose wearing her high school uniform layered with a dark espresso barista apron holding a takeaway coffee cup, 3) small 2D side-scrolling pixel art walking sprite strip, 4) grown-up After Story outfit wearing a warm burgundy knit sweater, dark skirt, and headphones as a cozy cafe and vinyl shop owner. Crisp authentic 16-bit/32-bit pixel art style, cohesive warm palette, no text or gibberish letters.\n```\n"
+    },
     {
       "id": "doc_heroines_bible",
       "title": "07_Heroines_Bible_Rank1to10_and_AfterStories.md",
@@ -712,6 +742,38 @@
       "docRefId": null,
       "isBanter": false,
       "time": "08:35"
+    },
+    {
+      "id": "m_1795337085509_4725",
+      "senderId": "boss",
+      "text": "ไปทำ Concept Art ของแต่ละตัวละครมาก่อน!",
+      "docRefId": null,
+      "isBanter": false,
+      "time": "08:44"
+    },
+    {
+      "id": "m_1795337085509_8922",
+      "senderId": "mint",
+      "text": "จัดให้เลยค่ะบอส!! มิ้นท์วาด **Hi-Res Concept Art Sheet ของไทม์ (`ConceptArt_01_Time.jpg`)** อัปโหลดขึ้น Google Drive `Mynew game/` แล้วค่ะ (แต่โควต้าเจนภาพ AI ของระบบหมดชั่วคราวพอดีหลังภาพแรก 😅) มิ้นท์เลยทำ **Interactive Pixel Concept Art & Sprite Viewer** ครบทั้ง 5 ตัวละคร (ไทม์, ริน, มายด์, ซีน, เอวา) ให้บอสกดสลับดู 5 สีหน้า, ชุด ม.6 / หน้าหนาว / ชุด After Story และพรีวิวเดินในฉากทางเดินแสงเย็นได้ทันที พร้อมเก็บ Master Prompt ชุดเดียวกันสำหรับเจนภาพ 4 สาวไว้ใน **`08_Character_Concept_Art_Guide.md`** บน Drive แล้วค่ะ! 🎨✨",
+      "docRefId": "doc_concept_art_guide",
+      "isBanter": false,
+      "time": "08:44"
+    },
+    {
+      "id": "m_1795337085509_6990",
+      "senderId": "karn",
+      "text": "โห ชีตไทม์ออกมาโคตรดีเลยมิ้นท์!! ฟีล *Until Then* ผสมโรงเรียนไทยเป๊ะมาก แถมใน Interactive Viewer ผมแอบใส่บทพูดตัวอย่างครบ 5 อารมณ์ของทั้ง 5 ตัวละครไว้ให้บอสลองกดอ่านเช็กฟีลลิ่งด้วยครับ 📖",
+      "docRefId": null,
+      "isBanter": false,
+      "time": "08:44"
+    },
+    {
+      "id": "m_1795337085509_879",
+      "senderId": "ton",
+      "text": "เห็นสไปรท์เดินในฉากทางเดินแสงเย็นแล้วมือสั่นเลยครับบอส ถ้าบอสโอเคกับดีไซน์ของทั้ง 5 คนแล้ว สั่งผมเริ่มปั้น **Playable Demo บทที่ 1** ได้เลยนะ 💻",
+      "docRefId": null,
+      "isBanter": false,
+      "time": "08:44"
     }
   ]
 }
