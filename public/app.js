@@ -1447,7 +1447,116 @@ document.getElementById('btnSaveAndSyncDoc').onclick = async () => {
   }
 };
 
-// Initial Load (Auto-detects Full-Stack Backend vs Static Web Hosting!)
+// Antigravity Commander Live Sync (Zero API Key — Polls studio-live.json automatically!)
+const LIVE_STATE_URLS = [
+  'https://raw.githubusercontent.com/Longkuy/mynew-game-office/main/public/studio-live.json',
+  './studio-live.json',
+];
+let lastCommanderRevision = 0;
+
+async function fetchCommanderLiveState(manual = false) {
+  let live = null;
+  for (const base of LIVE_STATE_URLS) {
+    try {
+      const res = await fetch(`${base}?t=${Date.now()}`, { cache: 'no-store' });
+      if (res.ok) {
+        live = await res.json();
+        break;
+      }
+    } catch (_) {}
+  }
+  if (!live || typeof live !== 'object') {
+    if (manual) showToast('⚠️ ยังดึงสถานะล่าสุดไม่สำเร็จ ลองกดใหม่อีกครั้ง');
+    return false;
+  }
+
+  const isNewRevision = (live.revision || 0) > lastCommanderRevision;
+  if (!isNewRevision && !manual) return true;
+
+  const hadPrevious = lastCommanderRevision > 0;
+  lastCommanderRevision = live.revision || 1;
+
+  state.gameTitle = live.gameTitle || state.gameTitle;
+  state.teamEnergy = live.teamEnergy ?? state.teamEnergy;
+  if (live.driveFolderUrl) {
+    state.drive.folderUrl = live.driveFolderUrl;
+    state.drive.connected = true;
+    const pill = document.getElementById('driveHeaderPill');
+    pill.href = live.driveFolderUrl;
+    pill.textContent = `☁️ Drive: ${state.drive.folderName} ↗`;
+    document.getElementById('driveFolderLinkBtn').href = live.driveFolderUrl;
+  }
+
+  if (live.activeOrder) {
+    document.getElementById('liveEventTicker').textContent = `🤖 คำสั่งล่าสุด: ${live.activeOrder}`;
+  }
+
+  // Apply live agent statuses, tasks, moods & animate speech bubbles!
+  if (live.agents && typeof live.agents === 'object') {
+    AGENTS.forEach(a => {
+      const patch = live.agents[a.id];
+      if (!patch) return;
+      if (patch.task) a.task = patch.task;
+      if (typeof patch.progress === 'number') a.progress = patch.progress;
+      if (patch.mood) a.mood = patch.mood;
+      if (patch.status === 'meeting') {
+        engine.sendAgentTo(a, a.standup.x, a.standup.y, 'meeting', patch.bubble || '', patch.emote || '');
+      } else if (patch.status === 'coffee') {
+        const sp = COFFEE_SPOTS[Math.floor(Math.random() * COFFEE_SPOTS.length)];
+        engine.sendAgentTo(a, sp.x, sp.y, 'coffee', patch.bubble || '', patch.emote || '☕');
+      } else {
+        engine.sendAgentTo(a, a.seat.x, a.seat.y, 'working', patch.bubble || '', patch.emote || '');
+      }
+    });
+  }
+
+  if (Array.isArray(live.relationships) && live.relationships.length) {
+    state.relationships = live.relationships;
+  }
+  if (Array.isArray(live.tasks)) {
+    state.tasks = live.tasks;
+  }
+  if (Array.isArray(live.docs)) {
+    state.docs = live.docs;
+    state.driveFiles = live.docs
+      .filter(d => d.driveUrl)
+      .map(d => ({ id: d.driveId || d.id, name: d.title, mimeType: 'text/markdown', webViewLink: d.driveUrl }));
+    const driveLbl = document.getElementById('driveSyncStateText');
+    if (driveLbl) driveLbl.textContent = `ซิงก์จาก Antigravity Commander (${state.driveFiles.length} ไฟล์ใน Mynew game/)`;
+  }
+  if (Array.isArray(live.messages)) {
+    state.messages = live.messages;
+  }
+
+  if (!state.apiConfig.hasApiKey && state.apiConfig.provider === 'sim') {
+    document.getElementById('modeBadge').textContent = '🤖 Antigravity Commander';
+  }
+
+  renderRoster();
+  renderInspector();
+  renderRelations();
+  renderBoard();
+  renderDocs();
+  renderDriveFiles();
+  renderAllMessages();
+  updateStatsUI();
+
+  if (hadPrevious && isNewRevision) {
+    engine.setBossBubble('รับคำสั่งใหม่แล้ว!');
+    sfx.done();
+    showToast(`⚡ อัปเดตคำสั่งใหม่จากแชท Antigravity (#${live.revision})!`);
+  } else if (manual) {
+    sfx.click();
+    showToast(`✅ ซิงก์ล่าสุดแล้ว (Rev #${live.revision})`);
+  }
+  return true;
+}
+
+document.getElementById('btnSyncCommander')?.addEventListener('click', () => {
+  fetchCommanderLiveState(true);
+});
+
+// Initial Load (Auto-detects Full-Stack Backend vs Antigravity Commander Live Sync!)
 async function boot() {
   const drivePill = document.getElementById('driveHeaderPill');
   try {
@@ -1468,39 +1577,41 @@ async function boot() {
       ? `☁️ Drive: ${state.drive.folderName} ↗`
       : '💾 Backend Online (Local Mode)';
     document.getElementById('driveFolderLinkBtn').href = state.drive.folderUrl;
+
+    updateModeBadge();
+    renderRoster();
+    renderInspector();
+    renderRelations();
+    renderBoard();
+    renderDocs();
+    renderAllMessages();
+    updateStatsUI();
+    refreshDriveFiles(true);
   } catch {
     state.backendOnline = false;
-    drivePill.textContent = '🌐 Web Studio Mode';
     try {
       const local = JSON.parse(localStorage.getItem('mynew_game_studio_static_v1') || 'null');
-      if (local) {
-        state.gameTitle = local.gameTitle || state.gameTitle;
-        state.teamEnergy = local.teamEnergy ?? 92;
-        if (local.apiConfig) state.apiConfig = { ...state.apiConfig, ...local.apiConfig };
-        state.relationships = local.relationships?.length ? local.relationships : structuredClone(DEFAULT_RELATIONSHIPS);
-        state.tasks = local.tasks || [];
-        state.docs = local.docs || [];
-        state.messages = local.messages || [];
-      }
+      if (local?.apiConfig) state.apiConfig = { ...state.apiConfig, ...local.apiConfig };
     } catch (_) {}
-    if (state.messages.length === 0) {
-      const now = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
-      state.messages = [
-        { senderId: 'system', text: '🏢 ยินดีต้อนรับสู่ Mynew Game Studio! ทีมงานทั้ง 6 คนเข้าออฟฟิศครบแล้ว', time: now, isBanter: false },
-        { senderId: 'may', text: 'สวัสดีค่ะบอส! วันนี้ทุกคนคึกคักกันมากเลย ลองกด "🚀 ประชุมคิดไอเดียเกมจากศูนย์" หรือพิมพ์แนวเกมที่อยากทำได้เลยนะคะ (กด ⚙️ ตั้งค่า เพื่อเลือกโมเดล AI ได้ครบทุกค่ายเลยค่ะ)', time: now, isBanter: false },
-      ];
-    }
-  }
 
-  updateModeBadge();
-  renderRoster();
-  renderInspector();
-  renderRelations();
-  renderBoard();
-  renderDocs();
-  renderAllMessages();
-  updateStatsUI();
-  refreshDriveFiles(true);
+    const synced = await fetchCommanderLiveState(false);
+    if (!synced) {
+      drivePill.textContent = '🌐 Web Studio Mode';
+      updateModeBadge();
+      renderRoster();
+      renderInspector();
+      renderRelations();
+      renderBoard();
+      renderDocs();
+      renderAllMessages();
+      updateStatsUI();
+    }
+
+    // Auto-poll Antigravity Commander dispatches every 12 seconds!
+    setInterval(() => {
+      if (!state.isRunningMission) fetchCommanderLiveState(false);
+    }, 12000);
+  }
 }
 
 boot();

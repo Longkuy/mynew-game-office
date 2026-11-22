@@ -1,0 +1,183 @@
+{
+  "revision": 1,
+  "updatedAt": "2026-11-22T08:10:00.000Z",
+  "commander": "Antigravity (AI Chief of Staff)",
+  "gameTitle": "Mynew Game",
+  "activeOrder": "เปลี่ยนระบบเป็นสั่งงานผ่านแชท Antigravity — ทีม 6 แผนกสแตนด์บายรับบรีฟแรก!",
+  "teamEnergy": 96,
+  "driveFolderUrl": "https://drive.google.com/drive/folders/1Pc1BFRgS7H2zUlpONKjEWB0UgF49Q2Ps",
+  "agents": {
+    "may": {
+      "status": "working",
+      "task": "รอรับคำสั่งแรกจากบอสผ่าน Antigravity",
+      "progress": 100,
+      "mood": "พร้อมลุยเต็มที่",
+      "bubble": "บอสสั่งผ่านแชทได้เลยค่ะ! 📋",
+      "emote": "📋"
+    },
+    "karn": {
+      "status": "working",
+      "task": "ลับดินสอรอคิดคอนเซปต์เกมแรก",
+      "progress": 85,
+      "mood": "ไอเดียพุ่งพร้อมระเบิด",
+      "bubble": "สั่งแนวเกมมาเลยครับบอส! 💡",
+      "emote": "💡"
+    },
+    "ton": {
+      "status": "working",
+      "task": "เตรียม Template โค้ด & ระบบซิงก์",
+      "progress": 90,
+      "mood": "พร้อมเขียนโค้ด (กาแฟพร้อม)",
+      "bubble": "ไม่ต้องใส่ API Key แล้ว สบาย! 💻",
+      "emote": "💻"
+    },
+    "mint": {
+      "status": "working",
+      "task": "เตรียมพาเลตต์สีและสเก็ตช์บอร์ด",
+      "progress": 80,
+      "mood": "ตื่นเต้นอยากวาดตัวละครแรก",
+      "bubble": "อยากวาดเกมแรกแล้วค่า ✨",
+      "emote": "🎨"
+    },
+    "james": {
+      "status": "working",
+      "task": "เตรียม QA Checklist & จอยเทสเกม",
+      "progress": 95,
+      "mood": "คึกคักรอเทสเกม",
+      "bubble": "พร้อมหาบั๊กให้พี่ต้นแล้วครับ 555",
+      "emote": "🐛"
+    },
+    "note": {
+      "status": "working",
+      "task": "อุ่นเครื่องซินธ์ในห้องอัดเสียง",
+      "progress": 78,
+      "mood": "ชิลล์ ฟัง Lo-fi รอโจทย์",
+      "bubble": "รอฟังแนวเกมจากบอสเลยครับ 🎧",
+      "emote": "🎵"
+    }
+  },
+  "relationships": [
+    {
+      "a": "karn",
+      "b": "ton",
+      "score": 74,
+      "type": "frenemy",
+      "label": "คู่กัดสายฟีเจอร์ (Love-Hate)",
+      "desc": "กานต์เสนออะไรล้ำๆ ต้นจะเบรกทันทีเรื่องเวลา แต่พอลงมือทำจริงกลับเข้าขากันอย่างเหลือเชื่อ"
+    },
+    {
+      "a": "karn",
+      "b": "mint",
+      "score": 91,
+      "type": "close",
+      "label": "คู่หูสายครีเอทีฟ (Soulmates)",
+      "desc": "ชอบสุมหัวคิดเนื้อเรื่องกับดีไซน์ตัวละครด้วยกันจนลืมกินข้าว คุยภาษาจินตนาการรู้เรื่องสุดๆ"
+    },
+    {
+      "a": "mint",
+      "b": "ton",
+      "score": 81,
+      "type": "frenemy",
+      "label": "สงคราม 2 พิกเซล",
+      "desc": "มิ้นท์ชอบเดินมาขอให้ต้นขยับ UI ทีละ 2px ต้นทำหน้าปลงแต่สุดท้ายก็ยอมแก้ให้ทุกที"
+    },
+    {
+      "a": "ton",
+      "b": "james",
+      "score": 75,
+      "type": "frenemy",
+      "label": "คู่เวรคู่กรรม Bug Hunter",
+      "desc": "เจมส์ชอบเอาบั๊กสุดพิสดารมาฝากต้นตอน 6 โมงเย็น ต้นบ่นแต่แอบนับถือสายตาน้องมาก"
+    },
+    {
+      "a": "may",
+      "b": "ton",
+      "score": 89,
+      "type": "work",
+      "label": "คู่หูแบกเดดไลน์",
+      "desc": "สองคนที่เป็นฐานมั่นคงของบริษัท แค่มองตาก็รู้ว่าฟีเจอร์ไหนทำทันหรือต้องตัดออก"
+    },
+    {
+      "a": "may",
+      "b": "karn",
+      "score": 83,
+      "type": "work",
+      "label": "พี่สาวคุมสโคป",
+      "desc": "พี่เมย์เอ็นดูกานต์แต่ต้องคอยดึงสติไม่ให้ขยายแมปใหญ่เกินไป และคอยเตือนให้นอนให้พอ"
+    },
+    {
+      "a": "mint",
+      "b": "note",
+      "score": 89,
+      "type": "close",
+      "label": "สายมู้ด & สุนทรียะ",
+      "desc": "จับคู่สีกับเสียงเพลงเข้ากันเป๊ะ ชอบแชร์เพลงอินดี้และกาแฟดริปให้กันประจำ"
+    },
+    {
+      "a": "james",
+      "b": "note",
+      "score": 85,
+      "type": "close",
+      "label": "แก๊งพักเบรกสายชิลล์",
+      "desc": "เจอกันบ่อยที่โซนกาแฟกับตู้เกม ชอบคุยเรื่องเกมยุคเก่าและซาวด์แทร็กตำนาน"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "t_init_1",
+      "title": "ตั้งค่าระบบรับคำสั่งผ่านแชท Antigravity + ซิงก์ Google Drive",
+      "ownerId": "ton",
+      "status": "done"
+    },
+    {
+      "id": "t_init_2",
+      "title": "สร้างเอกสาร Studio Charter ลงโฟลเดอร์ Mynew game/",
+      "ownerId": "may",
+      "status": "done"
+    },
+    {
+      "id": "t_init_3",
+      "title": "รอรับบรีฟแนวเกมแรกจากบอส",
+      "ownerId": "karn",
+      "status": "todo"
+    }
+  ],
+  "docs": [
+    {
+      "id": "doc_charter",
+      "title": "00_Mynew_Game_Studio_Charter.md",
+      "authorId": "may",
+      "authorName": "พี่เมย์ (Producer / PM)",
+      "emoji": "📋",
+      "createdAt": "07:40",
+      "driveStatus": "synced",
+      "driveId": "1j7OsixxuNAP2Dn5qCGyv7rmdZ4_w_BaP",
+      "driveUrl": "https://drive.google.com/file/d/1j7OsixxuNAP2Dn5qCGyv7rmdZ4_w_BaP/view",
+      "content": "# Mynew Game Studio — Project Charter\n\nยินดีต้อนรับสู่โฟลเดอร์เอกสารของโปรเจกต์ **Mynew Game** (ซิงก์อัตโนมัติผ่าน Antigravity Commander)\n\n## ทีมงานในสตูดิโอ (6 แผนก)\n- **พี่เมย์ (Producer / PM):** คุมสโคป วางแผน Sprint และจัดตารางงาน\n- **กานต์ (Game Designer & Writer):** ออกแบบ Core Loop, เนื้อเรื่อง และด่าน\n- **ต้น (Lead Programmer):** สถาปัตยกรรมโค้ด, Game Loop และ Prototype\n- **มิ้นท์ (Art & UI Lead):** งานภาพ 2D Pixel Art, Color Palette และ UI\n- **เจมส์ (QA / Playtester):** ทดสอบสมดุล เกมเพลย์ และจับบั๊ก\n- **พี่โน้ต (Sound & Music):** เพลงประกอบ BGM และเสียงเอฟเฟกต์ SFX\n"
+    }
+  ],
+  "messages": [
+    {
+      "id": "m_live_1",
+      "senderId": "system",
+      "text": "🤖 เปิดโหมด Antigravity Commander แล้ว! บอสพิมพ์สั่งงานในแชท Antigravity ได้เลยโดยไม่ต้องใช้ API Key — ทีมจะทำงานจริง ซิงก์ลง Google Drive และอัปเดตออฟฟิศนี้อัตโนมัติ",
+      "time": "ตอนนี้",
+      "isBanter": false
+    },
+    {
+      "id": "m_live_2",
+      "senderId": "may",
+      "text": "โอเคค่ะทุกคน บอสเปลี่ยนมาสั่งงานผ่านผู้ช่วย Antigravity โดยตรงแล้วนะ สะดวกขึ้นเยอะเลยไม่ต้องยุ่งเรื่อง API Key ด้วย! ตอนนี้พวกเราพร้อมลุยโปรเจกต์แรกแล้ว บอสอยากเริ่มสร้างเกมแนวไหนสั่งมาในแชทได้เลยค่ะ 📋✨",
+      "docRefId": "doc_charter",
+      "time": "ตอนนี้",
+      "isBanter": false
+    },
+    {
+      "id": "m_live_3",
+      "senderId": "ton",
+      "text": "ระบบ Live Sync ขึ้นเว็บเรียบร้อยแล้วครับบอส พอบอสสั่งงานในแชทปุ๊บ พวกผมทำงานเสร็จแล้วเอกสารจะเด้งเข้า Google Drive Mynew game/ พร้อมอัปเดตหน้าจอออฟฟิศนี้ให้อัตโนมัติเลย 💻",
+      "time": "ตอนนี้",
+      "isBanter": false
+    }
+  ]
+}
