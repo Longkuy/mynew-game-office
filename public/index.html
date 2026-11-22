@@ -227,28 +227,45 @@
 
         <div style="padding-top:8px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:10px;">
           <div>
-            <label style="font-weight:600;display:block;margin-bottom:4px;">โหมด AI (เรียกผ่าน Backend ปลอดภัย ไม่ติด CORS)</label>
+            <label style="font-weight:600;display:block;margin-bottom:4px;">ผู้ให้บริการ AI (เลือกได้ทุกค่ายหลัก + โมเดลฟรี)</label>
             <select id="apiProvider" class="input">
-              <option value="sim">Studio Sim Mode (ฟรี / ใช้งานได้ทันที)</option>
-              <option value="gemini">Google Gemini API (gemini-2.5-flash)</option>
-              <option value="openai">OpenAI / OpenAI-Compatible API</option>
+              <option value="sim">Studio Sim Mode (ฟรี / ไม่ต้องใช้คีย์)</option>
+              <option value="gemini">Google Gemini (2.5 Flash / 2.5 Pro / 2.5 Flash-Lite)</option>
+              <option value="openrouter">OpenRouter (รวมทุกค่าย 300+ โมเดล • มีโมเดลฟรี!)</option>
+              <option value="anthropic">Anthropic Claude (Sonnet 4.5 / Opus 4.1 / Haiku 4.5)</option>
+              <option value="openai">OpenAI (GPT-4.1 / GPT-4o / o4-mini)</option>
+              <option value="deepseek">DeepSeek (DeepSeek V3 / R1 Reasoner)</option>
+              <option value="groq">Groq (Llama 3.3 70B / Qwen3 / Kimi K2 • เร็วมากมี Free Tier)</option>
+              <option value="xai">xAI Grok (Grok 3 / Grok 3 Mini)</option>
+              <option value="ollama">Ollama / LM Studio (รันฟรีบนเครื่องตัวเอง)</option>
+              <option value="custom">Custom OpenAI-Compatible API (ใส่ URL &amp; โมเดลเอง)</option>
             </select>
           </div>
 
-          <div id="apiKeyGroup" class="hidden" style="display:flex;flex-direction:column;gap:8px;">
+          <div id="apiKeyGroup" class="hidden" style="display:flex;flex-direction:column;gap:9px;">
             <div>
-              <label style="font-weight:600;display:block;margin-bottom:4px;">API Key <span id="savedKeyHint" class="text-success" style="font-weight:500;"></span></label>
-              <input id="apiKeyInput" class="input" type="password" placeholder="วางคีย์ใหม่ หรือเว้นว่างไว้เพื่อใช้คีย์เดิม" />
+              <label style="font-weight:600;display:block;margin-bottom:4px;">เลือกโมเดล (Preset)</label>
+              <select id="apiModelPreset" class="input"></select>
             </div>
-            <div id="apiBaseUrlGroup" class="hidden" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-              <div>
-                <label style="font-weight:600;display:block;margin-bottom:4px;">Base URL</label>
-                <input id="apiBaseUrl" class="input" type="text" value="https://api.openai.com/v1/chat/completions" />
-              </div>
-              <div>
-                <label style="font-weight:600;display:block;margin-bottom:4px;">Model</label>
-                <input id="apiModel" class="input" type="text" value="gpt-4o-mini" />
-              </div>
+
+            <div>
+              <label style="font-weight:600;display:block;margin-bottom:4px;">ชื่อโมเดล (แก้ไขหรือพิมพ์รหัสโมเดลใหม่เองได้ทุกตัว)</label>
+              <input id="apiModel" class="input" type="text" placeholder="เช่น gemini-2.5-pro หรือ anthropic/claude-sonnet-4" />
+            </div>
+
+            <div id="apiKeyFieldWrap">
+              <label style="font-weight:600;display:block;margin-bottom:4px;">API Key <span id="savedKeyHint" class="text-success" style="font-weight:500;"></span></label>
+              <input id="apiKeyInput" class="input" type="password" placeholder="วาง API Key ของค่ายที่เลือก..." />
+            </div>
+
+            <div id="apiBaseUrlGroup" class="hidden">
+              <label style="font-weight:600;display:block;margin-bottom:4px;">API Endpoint (Base URL)</label>
+              <input id="apiBaseUrl" class="input" type="text" placeholder="https://..." />
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+              <button id="btnTestAi" type="button" class="btn btn-sm">🧪 ทดสอบเชื่อมต่อ AI</button>
+              <span id="testAiResult" class="muted" style="font-size:11px;"></span>
             </div>
           </div>
         </div>

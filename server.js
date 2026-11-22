@@ -54,18 +54,33 @@ async function readJsonBody(req) {
   return JSON.parse(raw);
 }
 
+const PROVIDER_ENDPOINTS = {
+  openai: 'https://api.openai.com/v1/chat/completions',
+  openrouter: 'https://openrouter.ai/api/v1/chat/completions',
+  deepseek: 'https://api.deepseek.com/chat/completions',
+  groq: 'https://api.groq.com/openai/v1/chat/completions',
+  xai: 'https://api.x.ai/v1/chat/completions',
+  ollama: 'http://localhost:11434/v1/chat/completions',
+};
+
 function effectiveApiConfig(st) {
   const cfg = st.apiConfig || {};
-  if (cfg.apiKey) return cfg;
+  if (cfg.provider && cfg.provider !== 'sim' && (cfg.apiKey || cfg.provider === 'ollama')) return cfg;
   if (process.env.GEMINI_API_KEY) {
-    return { provider: 'gemini', apiKey: process.env.GEMINI_API_KEY, baseUrl: '', model: 'gemini-2.5-flash' };
+    return { provider: 'gemini', apiKey: process.env.GEMINI_API_KEY, baseUrl: '', model: process.env.GEMINI_MODEL || 'gemini-2.5-flash' };
+  }
+  if (process.env.ANTHROPIC_API_KEY) {
+    return { provider: 'anthropic', apiKey: process.env.ANTHROPIC_API_KEY, baseUrl: 'https://api.anthropic.com/v1/messages', model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-5' };
+  }
+  if (process.env.OPENROUTER_API_KEY) {
+    return { provider: 'openrouter', apiKey: process.env.OPENROUTER_API_KEY, baseUrl: PROVIDER_ENDPOINTS.openrouter, model: process.env.OPENROUTER_MODEL || 'google/gemini-2.5-flash' };
   }
   if (process.env.OPENAI_API_KEY) {
     return {
       provider: 'openai',
       apiKey: process.env.OPENAI_API_KEY,
-      baseUrl: process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1/chat/completions',
-      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+      baseUrl: process.env.OPENAI_BASE_URL || PROVIDER_ENDPOINTS.openai,
+      model: process.env.OPENAI_MODEL || 'gpt-4.1-mini',
     };
   }
   return cfg;
@@ -87,9 +102,9 @@ async function publicStateView(st) {
     },
     apiConfig: {
       provider: effAi.provider || 'sim',
-      hasApiKey: Boolean(effAi.apiKey),
-      baseUrl: effAi.baseUrl || 'https://api.openai.com/v1/chat/completions',
-      model: effAi.model || 'gpt-4o-mini',
+      hasApiKey: Boolean(effAi.apiKey || effAi.provider === 'ollama'),
+      baseUrl: effAi.baseUrl || PROVIDER_ENDPOINTS[effAi.provider] || PROVIDER_ENDPOINTS.openai,
+      model: effAi.model || 'gemini-2.5-flash',
     },
     relationships: st.relationships || [],
     tasks: st.tasks || [],
@@ -101,55 +116,81 @@ async function publicStateView(st) {
 async function callBackendLLM(apiConfig, systemPrompt, userPrompt) {
   const provider = apiConfig?.provider || 'sim';
   const apiKey = apiConfig?.apiKey || '';
-  if (provider === 'sim' || !apiKey) return null;
+  const model = (apiConfig?.model || '').trim();
+  if (provider === 'sim') return null;
+  if (provider !== 'ollama' && !apiKey) return null;
 
   if (provider === 'gemini') {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
+    const geminiModel = model || 'gemini-2.5-flash';
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(geminiModel)}:generateContent?key=${encodeURIComponent(apiKey)}`;
     const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: systemPrompt }] },
         contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
-        generationConfig: { temperature: 0.85, maxOutputTokens: 500 },
+        generationConfig: { temperature: 0.85, maxOutputTokens: 520 },
       }),
     });
     if (!res.ok) {
       const errTxt = await res.text().catch(() => '');
-      throw new Error(`Gemini HTTP ${res.status}: ${errTxt.slice(0, 120)}`);
+      throw new Error(`Gemini HTTP ${res.status}: ${errTxt.slice(0, 140)}`);
     }
     const data = await res.json();
     return data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || null;
   }
 
-  if (provider === 'openai') {
-    const baseUrl = apiConfig.baseUrl || 'https://api.openai.com/v1/chat/completions';
-    const model = apiConfig.model || 'gpt-4o-mini';
-    const res = await fetch(baseUrl, {
+  if (provider === 'anthropic') {
+    const url = apiConfig.baseUrl || 'https://api.anthropic.com/v1/messages';
+    const res = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt },
-        ],
-        temperature: 0.85,
-        max_tokens: 500,
+        model: model || 'claude-sonnet-4-5',
+        max_tokens: 520,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }],
       }),
     });
     if (!res.ok) {
       const errTxt = await res.text().catch(() => '');
-      throw new Error(`OpenAI HTTP ${res.status}: ${errTxt.slice(0, 120)}`);
+      throw new Error(`Claude HTTP ${res.status}: ${errTxt.slice(0, 140)}`);
     }
     const data = await res.json();
-    return data?.choices?.[0]?.message?.content?.trim() || null;
+    return data?.content?.[0]?.text?.trim() || null;
   }
 
-  return null;
+  // OpenAI-compatible providers: openai, openrouter, deepseek, groq, xai, ollama, custom
+  const baseUrl = apiConfig.baseUrl || PROVIDER_ENDPOINTS[provider] || PROVIDER_ENDPOINTS.openai;
+  const headers = { 'Content-Type': 'application/json' };
+  if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
+  if (provider === 'openrouter') {
+    headers['HTTP-Referer'] = 'https://mynew-game-office';
+    headers['X-Title'] = 'Mynew Game Studio';
+  }
+  const res = await fetch(baseUrl, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      model: model || 'gpt-4.1-mini',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+      ],
+      temperature: 0.85,
+      max_tokens: 520,
+    }),
+  });
+  if (!res.ok) {
+    const errTxt = await res.text().catch(() => '');
+    throw new Error(`${provider} HTTP ${res.status}: ${errTxt.slice(0, 140)}`);
+  }
+  const data = await res.json();
+  return data?.choices?.[0]?.message?.content?.trim() || null;
 }
 
 async function handleApi(req, res, urlObj) {
@@ -351,7 +392,16 @@ async function handleApi(req, res, urlObj) {
     if (method === 'POST' && pathname === '/api/ai/chat') {
       const body = await readJsonBody(req);
       const st = await loadState();
-      const reply = await callBackendLLM(effectiveApiConfig(st), String(body.systemPrompt || ''), String(body.userPrompt || ''));
+      const baseCfg = effectiveApiConfig(st);
+      const cfg = body.testConfig
+        ? {
+            provider: body.testConfig.provider || baseCfg.provider,
+            apiKey: body.testConfig.apiKey || baseCfg.apiKey,
+            baseUrl: body.testConfig.baseUrl || baseCfg.baseUrl,
+            model: body.testConfig.model || baseCfg.model,
+          }
+        : baseCfg;
+      const reply = await callBackendLLM(cfg, String(body.systemPrompt || ''), String(body.userPrompt || ''));
       return sendJson(res, 200, { ok: true, reply });
     }
 

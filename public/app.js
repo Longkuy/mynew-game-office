@@ -273,6 +273,7 @@ function saveLocalBrowserState() {
     localStorage.setItem('mynew_game_studio_static_v1', JSON.stringify({
       gameTitle: state.gameTitle,
       teamEnergy: state.teamEnergy,
+      apiConfig: state.apiConfig,
       relationships: state.relationships,
       tasks: state.tasks,
       docs: state.docs,
@@ -679,10 +680,186 @@ function updateStatsUI() {
   document.getElementById('headerStudioTitle').textContent = `${state.gameTitle} Studio`;
 }
 
+const AI_PROVIDERS = {
+  sim: { label: 'Studio Sim Mode', endpoint: '', showBaseUrl: false, needsKey: false, models: [] },
+  gemini: {
+    label: 'Google Gemini',
+    endpoint: '',
+    showBaseUrl: false,
+    needsKey: true,
+    models: [
+      { id: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash (เร็ว ฉลาด ฟรีโควต้าเยอะ)' },
+      { id: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro (คิดลึก งานเกมดีไซน์/โค้ด)' },
+      { id: 'gemini-2.5-flash-lite', label: 'Gemini 2.5 Flash-Lite (เร็วมาก ประหยัดสุด)' },
+      { id: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash' },
+    ],
+  },
+  openrouter: {
+    label: 'OpenRouter',
+    endpoint: 'https://openrouter.ai/api/v1/chat/completions',
+    showBaseUrl: false,
+    needsKey: true,
+    models: [
+      { id: 'google/gemini-2.5-flash', label: 'Google: Gemini 2.5 Flash' },
+      { id: 'anthropic/claude-sonnet-4', label: 'Anthropic: Claude Sonnet 4' },
+      { id: 'openai/gpt-4.1-mini', label: 'OpenAI: GPT-4.1 Mini' },
+      { id: 'deepseek/deepseek-chat-v3-0324:free', label: 'DeepSeek V3 (ฟรี!)' },
+      { id: 'meta-llama/llama-3.3-70b-instruct:free', label: 'Meta: Llama 3.3 70B (ฟรี!)' },
+      { id: 'qwen/qwen3-235b-a22b:free', label: 'Qwen3 235B (ฟรี!)' },
+    ],
+  },
+  anthropic: {
+    label: 'Anthropic Claude',
+    endpoint: 'https://api.anthropic.com/v1/messages',
+    showBaseUrl: false,
+    needsKey: true,
+    models: [
+      { id: 'claude-sonnet-4-5', label: 'Claude Sonnet 4.5 (สมดุล เก่งโค้ด & เนื้อเรื่อง)' },
+      { id: 'claude-opus-4-1', label: 'Claude Opus 4.1 (ฉลาดสุด)' },
+      { id: 'claude-haiku-4-5', label: 'Claude Haiku 4.5 (เร็วมาก ประหยัด)' },
+      { id: 'claude-3-7-sonnet-latest', label: 'Claude 3.7 Sonnet' },
+    ],
+  },
+  openai: {
+    label: 'OpenAI',
+    endpoint: 'https://api.openai.com/v1/chat/completions',
+    showBaseUrl: false,
+    needsKey: true,
+    models: [
+      { id: 'gpt-4.1-mini', label: 'GPT-4.1 Mini (เร็ว คุ้มค่า)' },
+      { id: 'gpt-4.1', label: 'GPT-4.1 (รุ่นหลักสายงานโค้ด)' },
+      { id: 'gpt-4o', label: 'GPT-4o' },
+      { id: 'gpt-4o-mini', label: 'GPT-4o Mini' },
+      { id: 'o4-mini', label: 'o4-mini (สายวิเคราะห์/เหตุผล)' },
+    ],
+  },
+  deepseek: {
+    label: 'DeepSeek',
+    endpoint: 'https://api.deepseek.com/chat/completions',
+    showBaseUrl: false,
+    needsKey: true,
+    models: [
+      { id: 'deepseek-chat', label: 'DeepSeek-V3 (deepseek-chat • ถูกและเก่งมาก)' },
+      { id: 'deepseek-reasoner', label: 'DeepSeek-R1 (deepseek-reasoner • คิดเป็นขั้น)' },
+    ],
+  },
+  groq: {
+    label: 'Groq',
+    endpoint: 'https://api.groq.com/openai/v1/chat/completions',
+    showBaseUrl: false,
+    needsKey: true,
+    models: [
+      { id: 'llama-3.3-70b-versatile', label: 'Llama 3.3 70B Versatile (เร็วมาก มี Free Tier)' },
+      { id: 'qwen/qwen3-32b', label: 'Qwen3 32B (รองรับภาษาไทยดี)' },
+      { id: 'moonshotai/kimi-k2-instruct', label: 'Kimi K2 Instruct' },
+    ],
+  },
+  xai: {
+    label: 'xAI Grok',
+    endpoint: 'https://api.x.ai/v1/chat/completions',
+    showBaseUrl: false,
+    needsKey: true,
+    models: [
+      { id: 'grok-3', label: 'Grok 3' },
+      { id: 'grok-3-mini', label: 'Grok 3 Mini (เร็ว ประหยัด)' },
+    ],
+  },
+  ollama: {
+    label: 'Ollama / Local',
+    endpoint: 'http://localhost:11434/v1/chat/completions',
+    showBaseUrl: true,
+    needsKey: false,
+    models: [
+      { id: 'qwen2.5:14b', label: 'Qwen 2.5 14B (ภาษาไทยดีมาก)' },
+      { id: 'gemma3:12b', label: 'Gemma 3 12B' },
+      { id: 'llama3.2', label: 'Llama 3.2 (เบา รันลื่น)' },
+      { id: 'deepseek-r1:8b', label: 'DeepSeek R1 8B' },
+    ],
+  },
+  custom: {
+    label: 'Custom API',
+    endpoint: 'https://api.openai.com/v1/chat/completions',
+    showBaseUrl: true,
+    needsKey: true,
+    models: [
+      { id: 'gpt-4.1-mini', label: 'พิมพ์ชื่อโมเดลเองในช่องด้านล่าง' },
+    ],
+  },
+};
+
+async function callBrowserLLM(cfg, systemPrompt, userPrompt) {
+  const provider = cfg.provider || 'sim';
+  const apiKey = cfg.localKey || cfg.apiKey || '';
+  const model = (cfg.model || '').trim();
+  if (provider === 'sim') return null;
+  if (provider !== 'ollama' && !apiKey) return null;
+
+  if (provider === 'gemini') {
+    const m = model || 'gemini-2.5-flash';
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: systemPrompt }] },
+        contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
+        generationConfig: { temperature: 0.85, maxOutputTokens: 520 },
+      }),
+    });
+    if (!res.ok) throw new Error(`Gemini HTTP ${res.status}`);
+    const data = await res.json();
+    return data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || null;
+  }
+
+  if (provider === 'anthropic') {
+    const res = await fetch(cfg.baseUrl || 'https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: model || 'claude-sonnet-4-5',
+        max_tokens: 520,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }],
+      }),
+    });
+    if (!res.ok) throw new Error(`Claude HTTP ${res.status}`);
+    const data = await res.json();
+    return data?.content?.[0]?.text?.trim() || null;
+  }
+
+  const endpoint = cfg.baseUrl || AI_PROVIDERS[provider]?.endpoint || 'https://api.openai.com/v1/chat/completions';
+  const headers = { 'Content-Type': 'application/json' };
+  if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      model: model || 'gpt-4.1-mini',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+      ],
+      temperature: 0.85,
+      max_tokens: 520,
+    }),
+  });
+  if (!res.ok) throw new Error(`${provider} HTTP ${res.status}`);
+  const data = await res.json();
+  return data?.choices?.[0]?.message?.content?.trim() || null;
+}
+
 function updateModeBadge() {
   const b = document.getElementById('modeBadge');
-  if (state.apiConfig.provider !== 'sim' && state.apiConfig.hasApiKey) {
-    b.textContent = state.apiConfig.provider === 'gemini' ? '⚡ Live Gemini (Backend)' : '⚡ Live AI (Backend)';
+  const p = state.apiConfig.provider || 'sim';
+  const active = p !== 'sim' && (state.apiConfig.hasApiKey || p === 'ollama');
+  if (active) {
+    const shortModel = (state.apiConfig.model || p).split('/').pop();
+    b.textContent = `⚡ ${shortModel}`;
   } else {
     b.textContent = 'Studio Sim Mode';
   }
@@ -735,7 +912,7 @@ function adjustRelationship(idA, idB, delta) {
   }
 }
 
-// Agent Turn Executor (with Backend LLM Proxy + Auto Drive Doc Sync!)
+// Agent Turn Executor (Works in BOTH Full-Stack Backend Mode & GitHub Pages Direct Browser Mode!)
 async function runAgentTurn(agentId, taskTitle, simReply, bubbleText, emote, userPrompt = '', context = '', docSpec = null, goMeeting = false) {
   const a = AGENTS.find(x => x.id === agentId);
   if (!a) return '';
@@ -747,17 +924,24 @@ async function runAgentTurn(agentId, taskTitle, simReply, bubbleText, emote, use
   document.getElementById('typingText').textContent = `${a.emoji} ${a.name} กำลังทำงาน...`;
 
   let createdTaskId = null;
-  try {
-    const tRes = await api('/api/tasks', { method: 'POST', body: JSON.stringify({ title: taskTitle, ownerId: a.id, status: 'in_progress' }) });
-    state.tasks.unshift(tRes.task);
-    createdTaskId = tRes.task.id;
+  if (state.backendOnline) {
+    try {
+      const tRes = await api('/api/tasks', { method: 'POST', body: JSON.stringify({ title: taskTitle, ownerId: a.id, status: 'in_progress' }) });
+      state.tasks.unshift(tRes.task);
+      createdTaskId = tRes.task.id;
+      renderBoard(); updateStatsUI();
+    } catch (_) {}
+  } else {
+    createdTaskId = 't_' + Date.now() + '_' + Math.floor(Math.random() * 999);
+    state.tasks.unshift({ id: createdTaskId, title: taskTitle, ownerId: a.id, status: 'in_progress' });
     renderBoard(); updateStatsUI();
-  } catch (_) {}
+  }
 
   let replyText = simReply;
-  if (state.apiConfig.provider !== 'sim' && state.apiConfig.hasApiKey) {
+  const aiActive = state.apiConfig.provider !== 'sim' && (state.apiConfig.hasApiKey || state.apiConfig.provider === 'ollama');
+  if (aiActive) {
     try {
-      await sleep(500);
+      await sleep(450);
       a.progress = 55; renderRoster();
       const relNotes = state.relationships
         .filter(r => r.a === a.id || r.b === a.id)
@@ -766,11 +950,17 @@ async function runAgentTurn(agentId, taskTitle, simReply, bubbleText, emote, use
           return `- กับ${other.name}: ${r.label} (${r.desc})`;
         }).join('\n');
       const sysPrompt = `${a.systemPrompt}\nโปรเจกต์เกม: "${state.gameTitle}"\nความสัมพันธ์กับเพื่อนในทีม:\n${relNotes}\n${context ? 'สิ่งที่เพื่อนเพิ่งพูด:\n' + context : ''}\nตอบเป็นภาษาไทยให้เหมือนคนทำงานร่วมกันจริงๆ (ไม่เกิน 130 คำ)`;
-      const aiRes = await api('/api/ai/chat', {
-        method: 'POST',
-        body: JSON.stringify({ systemPrompt: sysPrompt, userPrompt: userPrompt || taskTitle })
-      });
-      if (aiRes.reply) replyText = aiRes.reply;
+      let liveReply = null;
+      if (state.backendOnline) {
+        const aiRes = await api('/api/ai/chat', {
+          method: 'POST',
+          body: JSON.stringify({ systemPrompt: sysPrompt, userPrompt: userPrompt || taskTitle })
+        });
+        liveReply = aiRes.reply;
+      } else {
+        liveReply = await callBrowserLLM(state.apiConfig, sysPrompt, userPrompt || taskTitle);
+      }
+      if (liveReply) replyText = liveReply;
     } catch (err) {
       replyText = `(สลับเป็น Studio Sim ชั่วคราว: ${err.message})\n\n${simReply}`;
     }
@@ -783,16 +973,18 @@ async function runAgentTurn(agentId, taskTitle, simReply, bubbleText, emote, use
     const t = state.tasks.find(x => x.id === createdTaskId);
     if (t) t.status = 'done';
     renderBoard(); updateStatsUI();
-    api(`/api/tasks/${encodeURIComponent(createdTaskId)}`, { method: 'PATCH', body: JSON.stringify({ status: 'done' }) }).catch(() => {});
+    if (state.backendOnline) {
+      api(`/api/tasks/${encodeURIComponent(createdTaskId)}`, { method: 'PATCH', body: JSON.stringify({ status: 'done' }) }).catch(() => {});
+    } else {
+      saveLocalBrowserState();
+    }
   }
   renderRoster();
   if (state.selectedAgentId === a.id) renderInspector();
 
   let docRefId = null;
   if (docSpec) {
-    const content = (state.apiConfig.provider !== 'sim' && state.apiConfig.hasApiKey)
-      ? `# ${docSpec.title}\n\n${replyText}\n`
-      : docSpec.content;
+    const content = aiActive ? `# ${docSpec.title}\n\n${replyText}\n` : docSpec.content;
     const savedDoc = await saveDocToBackendAndDrive({ title: docSpec.title, authorId: a.id, content });
     if (savedDoc) docRefId = savedDoc.id;
   }
@@ -1056,25 +1248,110 @@ document.getElementById('btnNewDoc').addEventListener('click', () => {
   });
 });
 
-// Settings Modal
+// Settings Modal (10 AI Providers + Dynamic Model Presets + Test Ping)
 const apiModal = document.getElementById('apiModal');
 const apiProviderEl = document.getElementById('apiProvider');
-function syncApiFields() {
-  const p = apiProviderEl.value;
-  document.getElementById('apiKeyGroup').classList.toggle('hidden', p === 'sim');
-  document.getElementById('apiBaseUrlGroup').classList.toggle('hidden', p !== 'openai');
+const apiModelPresetEl = document.getElementById('apiModelPreset');
+const apiModelInputEl = document.getElementById('apiModel');
+const apiBaseUrlEl = document.getElementById('apiBaseUrl');
+
+function populateModelPresets(provider, currentModel = '') {
+  const meta = AI_PROVIDERS[provider] || AI_PROVIDERS.sim;
+  const models = meta.models || [];
+  apiModelPresetEl.innerHTML = models
+    .map(m => `<option value="${escapeHtml(m.id)}">${escapeHtml(m.label)}</option>`)
+    .join('') + `<option value="__custom__">✏️ พิมพ์ชื่อโมเดลเองด้านล่าง</option>`;
+
+  const match = models.find(m => m.id === currentModel);
+  if (match) {
+    apiModelPresetEl.value = match.id;
+    apiModelInputEl.value = match.id;
+  } else if (currentModel) {
+    apiModelPresetEl.value = '__custom__';
+    apiModelInputEl.value = currentModel;
+  } else if (models.length > 0) {
+    apiModelPresetEl.value = models[0].id;
+    apiModelInputEl.value = models[0].id;
+  } else {
+    apiModelInputEl.value = '';
+  }
 }
-apiProviderEl.addEventListener('change', syncApiFields);
+
+function syncApiFields(resetModel = false) {
+  const p = apiProviderEl.value;
+  const meta = AI_PROVIDERS[p] || AI_PROVIDERS.sim;
+  document.getElementById('apiKeyGroup').classList.toggle('hidden', p === 'sim');
+  document.getElementById('apiBaseUrlGroup').classList.toggle('hidden', !meta.showBaseUrl);
+  document.getElementById('apiKeyFieldWrap').classList.toggle('hidden', !meta.needsKey);
+  document.getElementById('testAiResult').textContent = '';
+
+  if (resetModel) {
+    populateModelPresets(p, '');
+    if (meta.endpoint) apiBaseUrlEl.value = meta.endpoint;
+  } else {
+    populateModelPresets(p, state.apiConfig.provider === p ? state.apiConfig.model : '');
+    apiBaseUrlEl.value = (state.apiConfig.provider === p && state.apiConfig.baseUrl)
+      ? state.apiConfig.baseUrl
+      : (meta.endpoint || '');
+  }
+}
+
+apiProviderEl.addEventListener('change', () => syncApiFields(true));
+apiModelPresetEl.addEventListener('change', () => {
+  if (apiModelPresetEl.value !== '__custom__') {
+    apiModelInputEl.value = apiModelPresetEl.value;
+  } else {
+    apiModelInputEl.focus();
+  }
+});
+
+document.getElementById('btnTestAi').addEventListener('click', async () => {
+  const resEl = document.getElementById('testAiResult');
+  const prov = apiProviderEl.value;
+  const key = document.getElementById('apiKeyInput').value.trim() || state.apiConfig.localKey || '';
+  const model = apiModelInputEl.value.trim();
+  const baseUrl = apiBaseUrlEl.value.trim() || AI_PROVIDERS[prov]?.endpoint || '';
+
+  if (prov !== 'ollama' && !key && !(state.backendOnline && state.apiConfig.hasApiKey)) {
+    resEl.textContent = '⚠️ กรุณาวาง API Key ก่อนทดสอบครับ';
+    return;
+  }
+  resEl.textContent = '⏳ กำลังทดสอบเชื่อมต่อ...';
+  try {
+    let reply = null;
+    if (state.backendOnline) {
+      const r = await api('/api/ai/chat', {
+        method: 'POST',
+        body: JSON.stringify({
+          systemPrompt: 'ตอบสั้นๆ 1 ประโยคว่าเชื่อมต่อสำเร็จ',
+          userPrompt: 'สวัสดี ทดสอบเชื่อมต่อ',
+          testConfig: { provider: prov, apiKey: key || undefined, baseUrl, model }
+        })
+      });
+      reply = r.reply;
+    } else {
+      reply = await callBrowserLLM(
+        { provider: prov, localKey: key, baseUrl, model },
+        'ตอบสั้นๆ 1 ประโยคว่าเชื่อมต่อสำเร็จ',
+        'สวัสดี ทดสอบเชื่อมต่อ'
+      );
+    }
+    resEl.textContent = reply ? `✅ เชื่อมต่อสำเร็จ! (${model})` : '⚠️ ไม่ได้รับข้อความตอบกลับ';
+    sfx.done();
+  } catch (err) {
+    resEl.textContent = `❌ ${err.message}`;
+  }
+});
 
 document.getElementById('btnApiSettings').addEventListener('click', () => {
   document.getElementById('gameTitleInput').value = state.gameTitle;
   document.getElementById('autoSyncDriveInput').checked = state.autoSyncDrive;
   apiProviderEl.value = state.apiConfig.provider || 'sim';
   document.getElementById('apiKeyInput').value = '';
-  document.getElementById('savedKeyHint').textContent = state.apiConfig.hasApiKey ? '(บันทึกคีย์ไว้บน Backend แล้ว)' : '';
-  document.getElementById('apiBaseUrl').value = state.apiConfig.baseUrl || 'https://api.openai.com/v1/chat/completions';
-  document.getElementById('apiModel').value = state.apiConfig.model || 'gpt-4o-mini';
-  syncApiFields();
+  document.getElementById('savedKeyHint').textContent = state.apiConfig.hasApiKey
+    ? (state.backendOnline ? '(บันทึกคีย์ไว้บน Backend แล้ว)' : '(บันทึกคีย์ไว้ในเบราว์เซอร์แล้ว)')
+    : '';
+  syncApiFields(false);
   apiModal.classList.remove('hidden');
 });
 document.getElementById('closeApiModal').onclick = () => apiModal.classList.add('hidden');
@@ -1084,17 +1361,24 @@ document.getElementById('saveApiModal').onclick = async () => {
   const autoSync = document.getElementById('autoSyncDriveInput').checked;
   const prov = apiProviderEl.value;
   const key = document.getElementById('apiKeyInput').value.trim();
-  const baseUrl = document.getElementById('apiBaseUrl').value.trim();
-  const model = document.getElementById('apiModel').value.trim();
+  const baseUrl = apiBaseUrlEl.value.trim() || AI_PROVIDERS[prov]?.endpoint || '';
+  const model = apiModelInputEl.value.trim() || AI_PROVIDERS[prov]?.models?.[0]?.id || '';
 
   if (!state.backendOnline) {
     state.gameTitle = newTitle;
     state.autoSyncDrive = autoSync;
-    state.apiConfig = { provider: prov, hasApiKey: Boolean(key || state.apiConfig.localKey), localKey: key || state.apiConfig.localKey, baseUrl, model };
+    const savedKey = key || (state.apiConfig.provider === prov ? state.apiConfig.localKey : '');
+    state.apiConfig = {
+      provider: prov,
+      hasApiKey: Boolean(savedKey || prov === 'ollama'),
+      localKey: savedKey,
+      baseUrl,
+      model
+    };
     saveLocalBrowserState();
     updateModeBadge(); updateStatsUI();
     apiModal.classList.add('hidden');
-    showToast('✅ บันทึกการตั้งค่าในเบราว์เซอร์แล้ว');
+    showToast(`✅ บันทึกการตั้งค่าแล้ว (${prov === 'sim' ? 'Studio Sim' : model})`);
     sfx.done();
     return;
   }
@@ -1113,7 +1397,7 @@ document.getElementById('saveApiModal').onclick = async () => {
     state.apiConfig = res.state.apiConfig;
     updateModeBadge(); updateStatsUI();
     apiModal.classList.add('hidden');
-    showToast('✅ บันทึกการตั้งค่าลง Backend เรียบร้อย');
+    showToast(`✅ บันทึกการตั้งค่าลง Backend เรียบร้อย (${prov === 'sim' ? 'Studio Sim' : model})`);
     sfx.done();
   } catch (err) {
     showToast(`บันทึกไม่ได้: ${err.message}`);
@@ -1192,6 +1476,7 @@ async function boot() {
       if (local) {
         state.gameTitle = local.gameTitle || state.gameTitle;
         state.teamEnergy = local.teamEnergy ?? 92;
+        if (local.apiConfig) state.apiConfig = { ...state.apiConfig, ...local.apiConfig };
         state.relationships = local.relationships?.length ? local.relationships : structuredClone(DEFAULT_RELATIONSHIPS);
         state.tasks = local.tasks || [];
         state.docs = local.docs || [];
@@ -1202,7 +1487,7 @@ async function boot() {
       const now = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
       state.messages = [
         { senderId: 'system', text: '🏢 ยินดีต้อนรับสู่ Mynew Game Studio! ทีมงานทั้ง 6 คนเข้าออฟฟิศครบแล้ว', time: now, isBanter: false },
-        { senderId: 'may', text: 'สวัสดีค่ะบอส! วันนี้ทุกคนคึกคักกันมากเลย ลองกด "🚀 ประชุมคิดไอเดียเกมจากศูนย์" หรือพิมพ์แนวเกมที่อยากทำได้เลยนะคะ (หากต้องการซิงก์ Google Drive อัตโนมัติ สามารถ Deploy Backend บน Render ได้ในคลิกเดียวค่ะ)', time: now, isBanter: false },
+        { senderId: 'may', text: 'สวัสดีค่ะบอส! วันนี้ทุกคนคึกคักกันมากเลย ลองกด "🚀 ประชุมคิดไอเดียเกมจากศูนย์" หรือพิมพ์แนวเกมที่อยากทำได้เลยนะคะ (กด ⚙️ ตั้งค่า เพื่อเลือกโมเดล AI ได้ครบทุกค่ายเลยค่ะ)', time: now, isBanter: false },
       ];
     }
   }
