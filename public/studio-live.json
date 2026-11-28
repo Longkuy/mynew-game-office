@@ -1,59 +1,71 @@
 {
-  "revision": 8,
-  "updatedAt": "2026-11-22T08:44:45.509Z",
+  "revision": 9,
+  "updatedAt": "2026-11-28T04:31:30.094Z",
   "commander": "Antigravity (AI Chief of Staff)",
   "gameTitle": "Our Final Year",
-  "activeOrder": "มิ้นท์สร้าง Concept Art ตัวละครหลัก 5 คน (ไทม์ + 4 นางเอก) พร้อม Interactive Pixel Sheet Viewer และอัปโหลดชีตไทม์ + Art Prompt Guide ลง Google Drive!",
-  "teamEnergy": 95,
+  "activeOrder": "ทำ SpriteSheet 60 FPS ครบ 11 ตัวละคร (Faye Anime Pixel Style) + Studio ทดสอบแอนิเมชัน 60 FPS",
+  "teamEnergy": 91,
   "driveFolderUrl": "https://drive.google.com/drive/folders/1Pc1BFRgS7H2zUlpONKjEWB0UgF49Q2Ps",
   "agents": {
     "may": {
       "status": "working",
       "task": "จัดเก็บ ConceptArt_01_Time.jpg & 08_Character_Concept_Art_Guide.md ลง Drive",
       "progress": 100,
-      "mood": "เรียบร้อย! รอบอสคอมเมนต์ดีไซน์ตัวละคร",
+      "mood": "happy",
       "bubble": "เก็บ Concept Art ลง Mynew game/ ให้เรียบร้อยค่ะ 📋",
-      "emote": "📋"
+      "emote": "📋",
+      "zone": "meeting_room",
+      "thought": "อัปโหลดครบ 23 ไฟล์เข้าโฟลเดอร์ SpriteSheets_60fps บน Drive แล้ว พร้อมเข้า Sprint 1 เดโม!"
     },
     "karn": {
-      "status": "working",
+      "status": "idle",
       "task": "เขียนบทพูดตัวอย่าง 5 อารมณ์ของทั้ง 5 ตัวละครใส่ใน Concept Viewer",
       "progress": 100,
-      "mood": "เห็นภาพตัวละครแล้วอินจัด!",
+      "mood": "happy",
       "bubble": "เห็นหน้าไทม์กับสาวๆ แล้วอยากเขียนบทที่ 1 เลย! 📖",
-      "emote": "💡"
+      "emote": "💡",
+      "zone": "design_zone",
+      "thought": "เห็นไทม์กับเฟย์วิ่งในโถงทางเดินเย็น 60fps แล้วฟีล Our Final Year มาเต็ม!"
     },
     "ton": {
       "status": "working",
       "task": "ทดสอบ Pixel Sprite Scale & 4-Frame Walk Cycle ในฉากทางเดินแสงเย็น",
       "progress": 100,
-      "mood": "ตัวละครเดินในฉากแสงเย็นลื่นมาก!",
+      "mood": "focused",
       "bubble": "ลองเอา Sprite เดินในฉาก Golden Hour แล้วโคตรสวย! 💻",
-      "emote": "💻"
+      "emote": "💻",
+      "zone": "dev_zone",
+      "thought": "เขียน Python rasterizer + JSON Atlas + 60 FPS Studio Previewer พร้อม Export PNG/JSON ครบชุด"
     },
     "mint": {
       "status": "working",
       "task": "ทำ Concept Art ตัวละคร 5 คน + Interactive Pixel Portrait & After Story Outfit Viewer",
       "progress": 100,
-      "mood": "ภูมิใจกับชีตไทม์และ Pixel Sheet ทั้ง 5 คนมาก!",
+      "mood": "excited",
       "bubble": "ทำชีตไทม์ + Interactive Pixel Sheet ครบ 5 คนแล้วค่า! 🎨✨",
-      "emote": "🎨"
+      "emote": "🎨",
+      "zone": "art_zone",
+      "thought": "รีฟายน์สไปรต์ 11 ตัวครบแล้ว 2880×256px 60fps เนียนกริ๊บ ตัดเส้น #2D1B18 ตามสไตล์เฟย์เป๊ะ!"
     },
     "james": {
       "status": "working",
       "task": "เช็กความชัดของสีหน้า Portrait 5 อารมณ์ & ชุด After Story",
       "progress": 100,
-      "mood": "ชอบสีหน้าเขินของมายด์กับรินมาก 555",
+      "mood": "focused",
       "bubble": "สีหน้าเขินกับช็อกของแต่ละคนน่ารักมากครับ! 😆",
-      "emote": "🐛"
+      "emote": "🐛",
+      "zone": "qa_zone",
+      "thought": "ตรวจพิกเซล 240 เฟรม/ตัวละคร เช็ค alpha transparency และ timing loop 60fps ผ่านฉลุย!"
     },
     "note": {
-      "status": "working",
+      "status": "idle",
       "task": "จับคู่โทนสีหน้าตัวละครกับเสียง Voice Blip ของแต่ละคน",
       "progress": 90,
-      "mood": "ได้ฟีลตัวละครชัดขึ้นเยอะ",
+      "mood": "relaxed",
       "bubble": "เห็นหน้าซีนกับเอวาแล้วได้เสียงธีมเป๊ะเลย 🎧",
-      "emote": "🎵"
+      "emote": "🎵",
+      "zone": "audio_zone",
+      "thought": "ซิงก์จังหวะเสียงฝีเท้า 60fps (ก้าวเฟรม 15 & 45) เตรียมทำ Footstep SFX บนพื้นไม้ได้เลย"
     }
   },
   "relationships": [
@@ -76,7 +88,7 @@
     {
       "a": "mint",
       "b": "ton",
-      "score": 83,
+      "score": 87,
       "type": "frenemy",
       "label": "สงคราม 2 พิกเซล",
       "desc": "มิ้นท์ชอบเดินมาขอให้ต้นขยับ UI ทีละ 2px ต้นทำหน้าปลงแต่สุดท้ายก็ยอมแก้ให้ทุกที"
@@ -84,7 +96,7 @@
     {
       "a": "ton",
       "b": "james",
-      "score": 80,
+      "score": 83,
       "type": "frenemy",
       "label": "คู่เวรคู่กรรม Bug Hunter",
       "desc": "เจมส์ชอบเอาบั๊กสุดพิสดารมาฝากต้นตอน 6 โมงเย็น ต้นบ่นแต่แอบนับถือสายตาน้องมาก"
@@ -123,6 +135,24 @@
     }
   ],
   "tasks": [
+    {
+      "id": "t_spritesheet_qa_alpha",
+      "title": "QA ตรวจ pixel alignment, transparent PNG และ JS syntax 60fps loop",
+      "ownerId": "james",
+      "status": "done"
+    },
+    {
+      "id": "t_spritesheet_studio_preview",
+      "title": "สร้าง 60 FPS SpriteSheet Studio (Preview/Step/Onion Skin/Hallway/Export)",
+      "ownerId": "ton",
+      "status": "done"
+    },
+    {
+      "id": "t_spritesheet_60fps_all11",
+      "title": "ผลิต SpriteSheet 60 FPS (48×64 × 60f × 4 rows) ครบ 11 ตัวละคร + JSON Atlas",
+      "ownerId": "mint",
+      "status": "done"
+    },
     {
       "id": "t_art_3",
       "title": "รอโควต้า Gen ภาพรีเซ็ต / เจนภาพ Hi-Res Sheet ของ ริน, มายด์, ซีน, เอวา เพิ่ม (พร้อม Prompt ชุดเดียวกันในไฟล์ 08)",
@@ -275,6 +305,18 @@
     }
   ],
   "docs": [
+    {
+      "id": "doc_1795840290094_806",
+      "title": "10_SpriteSheet_60fps_Spec.md",
+      "authorId": "ton",
+      "authorName": "ต้น (Lead Programmer)",
+      "emoji": "🎞️",
+      "createdAt": "04:31",
+      "driveId": "1ZK6qeWMS14mId-bs6QQfhpH0KQ8D4odn",
+      "driveUrl": "https://drive.google.com/file/d/1ZK6qeWMS14mId-bs6QQfhpH0KQ8D4odn/view",
+      "driveStatus": "synced",
+      "content": "# 10 — Our Final Year: 60 FPS SpriteSheet Technical Spec & Engine Import Guide\n\n> **Production Folder (Google Drive):** https://drive.google.com/drive/folders/1_KPeVSLYwo5H-TdQ6OEO4DfsImlxZ0vs\n> **Master Style:** Faye Anime 2D Pixel Art (`#2D1B18` warm dark-brown outline, transparent RGBA PNG)\n> **Cast Covered:** All 11 characters (`01_Time` through `11_Guy`) + `_Preview_All_11_Cast.png`\n\n---\n\n## 1. SpriteSheet Layout Specification\n\n| Property | Value |\n|---|---|\n| **Frame Size** | `48 × 64 px` (nearest-neighbor pixel art) |\n| **Columns (Frames / Row)** | `60` frames (1.0 second per loop at 60 FPS) |\n| **Rows (Animations)** | `4` rows: `0=idle`, `1=walk`, `2=run`, `3=talk` |\n| **Sheet Dimensions** | `2880 × 256 px` (`240` frames per character) |\n| **Format** | 32-bit RGBA Transparent PNG + Companion `.atlas.json` |\n| **Footstep Sync Frames** | Walk & Run contact peaks at frame `15` and frame `45` (for audio SFX) |\n\n### Row Mapping\n- **Row 0 (`y = 0`) — `idle`:** Subtle 60fps breathing, hair/ribbon sway, natural eye blink (~every 2.5s).\n- **Row 1 (`y = 64`) — `walk`:** Full 1-second school hallway walk cycle (arm/leg stride, body bob, skirt/hair follow-through).\n- **Row 2 (`y = 128`) — `run`:** Forward-leaning sprint cycle with higher stride arc and faster hair trail.\n- **Row 3 (`y = 192`) — `talk`:** Expressive dialogue bounce, gesture hand motion, and mouth-open animation frames.\n\n---\n\n## 2. Included Production Files (23 Files in `SpriteSheets_60fps/`)\n\n- `SpriteSheet_60fps_01_Time.png` + `.atlas.json` — ไทม์ (Protagonist)\n- `SpriteSheet_60fps_02_Rin.png` + `.atlas.json` — ริน (Childhood Friend)\n- `SpriteSheet_60fps_03_Mind.png` + `.atlas.json` — มายด์ (Class Rep)\n- `SpriteSheet_60fps_04_Scene.png` + `.atlas.json` — ซีน (Student Council)\n- `SpriteSheet_60fps_05_Ava.png` + `.atlas.json` — เอวา (Transfer Student)\n- `SpriteSheet_60fps_06_Luna.png` + `.atlas.json` — ลูน่า (Art Club)\n- `SpriteSheet_60fps_07_Prim.png` + `.atlas.json` — พริม (Track Club)\n- `SpriteSheet_60fps_08_Mean.png` + `.atlas.json` — มีน (Music Club)\n- `SpriteSheet_60fps_09_Faye.png` + `.atlas.json` — เฟย์ (Library / Master Style)\n- `SpriteSheet_60fps_10_Nicha.png` + `.atlas.json` — ณิชา (Cooking Club)\n- `SpriteSheet_60fps_11_Guy.png` + `.atlas.json` — กาย (Best Friend)\n- `_Preview_All_11_Cast.png` — Contact sheet overview of all 11 characters\n\n---\n\n## 3. Quick Import Guide by Engine\n\n### Godot 4 (`AnimatedSprite2D` / `Sprite2D` + `AnimationPlayer`)\n1. Import PNG with **Filter: Nearest** and **Mipmaps: Off**.\n2. Set `Hframes = 60`, `Vframes = 4` on `Sprite2D`.\n3. Animate `frame` from `row*60` to `row*60 + 59` over `1.0s` (or use `60 FPS` on `SpriteFrames`).\n\n### Unity (2D Sprite Editor)\n1. Set **Filter Mode = Point (no filter)**, **Compression = None**, **Sprite Mode = Multiple**.\n2. Open Sprite Editor -> **Slice by Grid By Cell Size**: `48 × 64`.\n3. Drag each row of 60 sprites onto an Animation Clip set to `Sample Rate = 60`.\n\n### Phaser 3 / HTML5 Canvas\n```js\nthis.load.spritesheet('faye', 'SpriteSheet_60fps_09_Faye.png', {\n  frameWidth: 48,\n  frameHeight: 64\n});\nthis.anims.create({\n  key: 'faye_walk',\n  frames: this.anims.generateFrameNumbers('faye', { start: 60, end: 119 }),\n  frameRate: 60,\n  repeat: -1\n});\n```\n\n> **Pro Tip on Pixel Art Feel:** If you want snappier retro animation while keeping 60 FPS camera/movement smoothness, sample every 5th frame (`12 FPS`) or every 2.5th frame (`24 FPS`) — the interactive **60 FPS SpriteSheet Studio** lets you compare `12 / 24 / 30 / 60 FPS` live and export whichever sheet density (`12/24/30/60 cols`) you prefer!\n"
+    },
     {
       "id": "doc_concept_art_guide",
       "title": "08_Character_Concept_Art_Guide.md",
@@ -774,6 +816,38 @@
       "docRefId": null,
       "isBanter": false,
       "time": "08:44"
+    },
+    {
+      "id": "m_1795840290094_4075",
+      "senderId": "mint",
+      "text": "บอส! มิ้นท์รีฟายน์ SpriteSheet 60 FPS ครบทั้ง 11 ตัวละครแล้วนะ! แก้ทรงหัวให้โค้งละมุน แยกเส้นแขน ขาเรียว และใส่แว่นกรอบบางให้เฟย์ตามสไตล์ Master Art เป๊ะเลย 🎨✨",
+      "docRefId": null,
+      "isBanter": false,
+      "time": "04:31"
+    },
+    {
+      "id": "m_1795840290094_1553",
+      "senderId": "ton",
+      "text": "ต้นเขียน Python Pipeline เจน PNG พื้นใส 2880×256 (60 เฟรม × 4 แถว: idle/walk/run/talk) พร้อมไฟล์ .atlas.json และสร้าง 60 FPS SpriteSheet Studio ให้บอสลองกดเดิน/วิ่งเทียบ 12/24/30/60 FPS ได้ทันทีครับ!",
+      "docRefId": "doc_1795840290094_806",
+      "isBanter": false,
+      "time": "04:31"
+    },
+    {
+      "id": "m_1795840290094_8295",
+      "senderId": "james",
+      "text": "เจมส์ตรวจ QA ครบทุกตัว 240 เฟรมไม่มีพิกเซลกระโดด alpha พื้นหลังใส 100% และสคริปต์ Studio ผ่าน syntax check ฉลุย พร้อมเอาเข้าเอนจินทำเดโมได้เลยครับ ✅",
+      "docRefId": null,
+      "isBanter": false,
+      "time": "04:31"
+    },
+    {
+      "id": "m_1795840290094_9311",
+      "senderId": "may",
+      "text": "พี่เมย์อัปโหลดครบ 23 ไฟล์เข้าโฟลเดอร์ SpriteSheets_60fps ใน Drive Mynew game/ พร้อมเอกสาร Spec เรียบร้อยแล้วค่ะบอส! รอบหน้าลุย Sprint 1 ทำเดโมบทที่ 1 กันเลยไหมคะ? 🚀",
+      "docRefId": null,
+      "isBanter": false,
+      "time": "04:31"
     }
   ]
 }
